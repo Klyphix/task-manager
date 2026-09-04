@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// A registered user. Each user only sees and manages their own tasks.
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  createdAt    DateTime  @default(now())
+  tasks        Task[]
+  sessions     Session[]
+}
+
+// A login session. We store sessions in the database (rather than putting
+// everything inside the cookie itself) so we can look up "who is this?" on
+// every request, and so a logout can instantly invalidate it.
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  expiresAt DateTime
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  dueDate     DateTime
+  category    String?
+  completed   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+}
