@@ -40,7 +40,7 @@ export default function TaskItem({ task }: { task: Task }) {
             <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
               Save
             </button>
-            <button type="button" onClick={() => setEditing(false)} className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">
+            <button type="button" onClick={() => setEditing(false)} className="bg-red-600 px-4 py-2 rounded hover:bg-red-400">
               Cancel
             </button>
           </div>
